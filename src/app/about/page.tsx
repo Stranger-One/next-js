@@ -1,4 +1,10 @@
-const About = () => {
+const About = async () => {
+    await new Promise((resolve)=>{
+        setTimeout(() => {
+            resolve("initial delay...")
+        }, 2000);
+    })
+    
     return (
         <div className='text-center w-full flex items-center justify-center flex-col min-h-screen  p-4'>
             <h1 className='text-4xl font-bold mb-4'>About Us</h1>

@@ -270,3 +270,10 @@ Parallel routes can help improve the performance and user experience of your app
 
 
  ### Intercepting Routes - (.) folder02
+
+ #### Intercepting Routes Conventions
+
+ (.) => for match segments on the same level
+ (..) => for match segments on one level up
+ (..)(..) => for match segments on two levels up
+ (...) => for match segments from the root directory

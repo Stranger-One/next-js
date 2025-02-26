@@ -100,11 +100,21 @@ export default async function ProductDetails({ params }: { params: Promise<{ pro
 ```typescript
 export default async function ProductDetails({ params }: { params: Promise<{ slug: string[] }> }) {
 	const { slug } = await params;
-	return <h1>Review {reviewId} for product {productId}</h1>;
+	return <h1>Review for {slug && slug[0]} product {slug && slug[1]}</h1>;
 }
 ```
 
 ***To bypass the slug, use `src/app/docs/[[...slug]]/page.tsx` => `/docs/{all route}....`***
+
+```typescript
+export default async function ProductDetails({ params }: { params: Promise<{ slug: string[] }> }) {
+    const { slug } = await params;
+    const reviewId = slug[0]; // Assuming the first segment is reviewId
+    const productId = slug[1]; // Assuming the second segment is productId
+    return <h1>Review {reviewId} for product {productId}</h1>;
+}
+```
+
 
 ### Custom Page Not Found Page
 
@@ -277,3 +287,21 @@ Parallel routes can help improve the performance and user experience of your app
  (..) => for match segments on one level up
  (..)(..) => for match segments on two levels up
  (...) => for match segments from the root directory
+
+
+
+## Routes Handler - backend
+### Routes Handler Conventions
+- `GET /api/...` => for fetching data
+- `POST /api/...` => for creating new data
+- `PUT /api/...` => for updating existing data
+- `DELETE /api/...` => for deleting data
+
+- `PATCH /api/...` => for partial updates
+- `HEAD /api/...` => for checking if a resource exists
+- `OPTIONS /api/...` => for checking allowed HTTP methods
+
+### File Structure
+- `src/app/api/....` => path for API routes
+- `src/app/api/comments` => path for API comments
+- `src/app/api/comments/[id]` => path for API comments with id params (Dynamic Routes)

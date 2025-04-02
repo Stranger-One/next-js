@@ -63,7 +63,7 @@ npx create-next-app@latest
 - `src/app/about/page.tsx` => `/about`
 - `src/app/profile/page.tsx` => `/profile`
 
-***If the route is not valid, Next.js provides a 404 not found page.***
+**_If the route is not valid, Next.js provides a 404 not found page._**
 
 ### Nested Routes
 
@@ -76,9 +76,13 @@ npx create-next-app@latest
 - `src/app/products/[productId]/page.tsx` => `/products/:productid`
 
 ```typescript
-export default async function ProductDetails({ params }: { params: Promise<{ productId: string }> }) {
-	const productId = (await params).productId;
-	return <h1>Details about product {productId}</h1>;
+export default async function ProductDetails({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}) {
+  const productId = (await params).productId;
+  return <h1>Details about product {productId}</h1>;
 }
 ```
 
@@ -87,9 +91,17 @@ export default async function ProductDetails({ params }: { params: Promise<{ pro
 - `src/app/products/[productId]/reviews/[reviewId]/page.tsx` => `/products/:productid/reviews/:reviewId`
 
 ```typescript
-export default async function ProductDetails({ params }: { params: Promise<{ productId: string; reviewId: string }> }) {
-	const { productId, reviewId } = await params;
-	return <h1>Review {reviewId} for product {productId}</h1>;
+export default async function ProductDetails({
+  params,
+}: {
+  params: Promise<{ productId: string; reviewId: string }>;
+}) {
+  const { productId, reviewId } = await params;
+  return (
+    <h1>
+      Review {reviewId} for product {productId}
+    </h1>
+  );
 }
 ```
 
@@ -98,30 +110,45 @@ export default async function ProductDetails({ params }: { params: Promise<{ pro
 - `src/app/docs/[...slug]/page.tsx` => `/docs/{all route}....`
 
 ```typescript
-export default async function ProductDetails({ params }: { params: Promise<{ slug: string[] }> }) {
-	const { slug } = await params;
-	return <h1>Review for {slug && slug[0]} product {slug && slug[1]}</h1>;
+export default async function ProductDetails({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
+  const { slug } = await params;
+  return (
+    <h1>
+      Review for {slug && slug[0]} product {slug && slug[1]}
+    </h1>
+  );
 }
 ```
 
-***To bypass the slug, use `src/app/docs/[[...slug]]/page.tsx` => `/docs/{all route}....`***
+**_To bypass the slug, use `src/app/docs/[[...slug]]/page.tsx` => `/docs/{all route}....`_**
 
 ```typescript
-export default async function ProductDetails({ params }: { params: Promise<{ slug: string[] }> }) {
-    const { slug } = await params;
-    const reviewId = slug[0]; // Assuming the first segment is reviewId
-    const productId = slug[1]; // Assuming the second segment is productId
-    return <h1>Review {reviewId} for product {productId}</h1>;
+export default async function ProductDetails({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}) {
+  const { slug } = await params;
+  const reviewId = slug[0]; // Assuming the first segment is reviewId
+  const productId = slug[1]; // Assuming the second segment is productId
+  return (
+    <h1>
+      Review {reviewId} for product {productId}
+    </h1>
+  );
 }
 ```
-
 
 ### Custom Page Not Found Page
 
 - Create a `not-found.tsx` / `not-found.jsx` inside the app folder for a global not found page.
 - Create `not-found.tsx` / `not-found.jsx` files for separate routes inside their respective routes and call `notFound()` imported from `next/navigation`.
 
-***The `notFound` component doesn't accept props.***
+**_The `notFound` component doesn't accept props._**
 
 - For dynamic values in the notFound page, use the `usePathname` hook in the client component.
 
@@ -146,8 +173,8 @@ Set metadata for every page for better SEO.
 
 ```typescript
 export const metadata = {
-	title: "",
-	description: "",
+  title: "",
+  description: "",
 };
 ```
 
@@ -155,11 +182,11 @@ In layout:
 
 ```typescript
 export const metadata: Metadata = {
-	title: {
-		default: "Next app",
-		template: "%s | Next app",
-	},
-	description: "",
+  title: {
+    default: "Next app",
+    template: "%s | Next app",
+  },
+  description: "",
 };
 ```
 
@@ -167,17 +194,17 @@ In page:
 
 ```typescript
 export const metadata: Metadata = {
-	title: "register", // "register | next app"
-	description: "",
+  title: "register", // "register | next app"
+  description: "",
 };
 ```
 
 ```typescript
 export const metadata: Metadata = {
-	title: {
-		absolute: "login", // "login"
-	},
-	description: "",
+  title: {
+    absolute: "login", // "login"
+  },
+  description: "",
 };
 ```
 
@@ -240,23 +267,31 @@ Consider a scenario where you have a dashboard with a sidebar and a main content
 
 ```typescript
 // src/app/dashboard/layout.tsx
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-	return (
-		<div>
-			<Sidebar />
-			<main>{children}</main>
-		</div>
-	);
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <Sidebar />
+      <main>{children}</main>
+    </div>
+  );
 }
 
 // src/app/dashboard/sidebar.tsx
 export default function Sidebar() {
-	return <nav>Sidebar content</nav>;
+  return <nav>Sidebar content</nav>;
 }
 
 // src/app/dashboard/[...main]/page.tsx
-export default function MainContent({ params }: { params: { main: string[] } }) {
-	return <div>Main content for {params.main.join('/')}</div>;
+export default function MainContent({
+  params,
+}: {
+  params: { main: string[] };
+}) {
+  return <div>Main content for {params.main.join("/")}</div>;
 }
 ```
 
@@ -270,28 +305,23 @@ In this example, the `Sidebar` component and the `MainContent` component are ren
 
 Parallel routes can help improve the performance and user experience of your application by allowing different parts of the page to load independently.
 
+### Unmatched Routes
 
- ### Unmatched Routes
- 
+### Conditional Routes
 
+### Intercepting Routes - (.) folder02
 
- ### Conditional Routes
+#### Intercepting Routes Conventions
 
-
-
- ### Intercepting Routes - (.) folder02
-
- #### Intercepting Routes Conventions
-
- (.) => for match segments on the same level
- (..) => for match segments on one level up
- (..)(..) => for match segments on two levels up
- (...) => for match segments from the root directory
-
-
+(.) => for match segments on the same level
+(..) => for match segments on one level up
+(..)(..) => for match segments on two levels up
+(...) => for match segments from the root directory
 
 ## Routes Handler - backend
+
 ### Routes Handler Conventions
+
 - `GET /api/...` => for fetching data
 - `POST /api/...` => for creating new data
 - `PUT /api/...` => for updating existing data
@@ -302,6 +332,95 @@ Parallel routes can help improve the performance and user experience of your app
 - `OPTIONS /api/...` => for checking allowed HTTP methods
 
 ### File Structure
+
 - `src/app/api/....` => path for API routes
 - `src/app/api/comments` => path for API comments
 - `src/app/api/comments/[id]` => path for API comments with id params (Dynamic Routes)
+
+### URL query parameters
+
+- `GET /api/comments?query=first&limit=10` => for fetching comments with query parameters
+- `GET /api/comments?sort=name&order=asc` => for fetching comments with sort
+- `GET /api/comments?filter=active` => for fetching comments with filter
+
+### Headers
+
+#### Request Headers / Incomming Headers
+
+- `Authorization: Bearer <token>` => for authentication
+- `Content-Type: application/json` => for sending JSON data
+- `Accept: application/json` => for receiving JSON data
+
+- get Request Headers in backend
+
+```typescript
+import { NextRequest } from "next/server";
+
+export async function GET(request: NextRequest) {
+  const requestHeaders = new Headers(request.headers);
+  console.log(requestHeaders.get("Authorization"));
+}
+```
+
+#### Response Headers / Outgoing Headers
+
+- `Content-Type: application/json` => for sending JSON data
+- `Set-Cookie: <cookie_name>=<cookie_value>` => for setting cookies
+- `Cache-Control: max-age=<max_age>` => for setting cache control
+
+- send back Headers to client
+
+```typescript
+return new Response("<h1>GET /api/profile</h1>", {
+  headers: {
+    "Content-Type": "text/html",
+  },
+
+  status: 200,
+});
+```
+
+### Cookies
+
+#### Set Cookies
+
+```typescript
+return new Response("<h1>GET /api/profile</h1>", {
+  headers: {
+    "Set-Cookie": "username=JohnDoe,age=20", // set cookies
+  },
+  status: 200,
+});
+```
+
+#### Get Cookies
+
+```typescript
+// get cookie
+const username = request.cookies.get("username");
+const age = request.cookies.get("age");
+console.log(username, age);
+```
+### Redirect
+```typescript
+import { redirect } from "next/navigation";
+
+export async function GET(request: NextRequest){
+	redirect('/api/v2/data')
+}
+```
+
+### Caching in Route Handlers
+
+----------------
+
+### Middlewares
+- create middleware.ts / middleware.js file in src directory
+- import middleware in route handler
+- use for redirects, URL rewrites, authentication, headers, cookies and more
+
+
+
+## Rendering
+
+
